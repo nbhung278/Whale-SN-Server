@@ -11,6 +11,7 @@ import {
 import {
   ActivationDto,
   ForgotPasswordDto,
+  GetUserByNameDto,
   RegisterDto,
   ResetPasswordDto,
 } from './dto';
@@ -88,5 +89,14 @@ export class UserResolver {
   @Query(() => [User])
   async getUsers() {
     return this.userService.getUsers();
+  }
+
+  @Query(() => User)
+  @UseGuards(AuthGuard)
+  async getUserByName(
+    @Args('getUserByNameDto')
+    getUserByNameDto: GetUserByNameDto,
+  ): Promise<User> {
+    return await this.userService.getUserByName(getUserByNameDto);
   }
 }

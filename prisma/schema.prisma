@@ -25,7 +25,7 @@ model Avatars {
 
 model User {
   id          Int       @id @default(autoincrement())
-  name        String
+  name        String    @unique
   firstName   String
   lastName    String
   email       String    @unique

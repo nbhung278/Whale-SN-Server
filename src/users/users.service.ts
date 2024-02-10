@@ -4,6 +4,7 @@ import { JwtService, JwtVerifyOptions } from '@nestjs/jwt';
 import {
   ActivationDto,
   ForgotPasswordDto,
+  GetUserByNameDto,
   LoginDto,
   RegisterDto,
   ResetPasswordDto,
@@ -11,9 +12,10 @@ import {
 import { Response } from 'express';
 import * as bcrypt from 'bcrypt';
 import { EmailService } from '../emails/emails.service';
-import { User } from '@prisma/client';
+// import { User } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { TokenSender } from 'utils/sendToken';
+import { User } from './entities/user.entity';
 
 interface UserData {
   name: string;
@@ -57,6 +59,8 @@ export class UsersService {
         email,
       },
     });
+
+    console.log('1111111111');
 
     const isPhoneNumberExist = await this.prismaService.user.findUnique({
       where: {
@@ -291,5 +295,23 @@ export class UsersService {
 
   async getUsers() {
     return this.prismaService.user.findMany({});
+  }
+
+  async getUserByName(getUserByNameDto: GetUserByNameDto) {
+    try {
+      const { name } = getUserByNameDto;
+      const user = await this.prismaService.user.findUnique({
+        where: {
+          name,
+        },
+      });
+      if (user) {
+        return user;
+      } else {
+        throw new BadRequestException('User not found!');
+      }
+    } catch (error) {
+      throw new BadRequestException('Error!');
+    }
   }
 }

@@ -10,6 +10,7 @@ import {
   ApolloFederationDriverConfig,
 } from '@nestjs/apollo';
 import { EmailModule } from './emails/emails.module';
+import { StreamsModule } from './streams/streams.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { EmailModule } from './emails/emails.module';
       },
     }),
     EmailModule,
+    StreamsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

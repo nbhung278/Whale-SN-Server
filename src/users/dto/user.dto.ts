@@ -101,3 +101,10 @@ export class ResetPasswordDto {
   @IsNotEmpty({ message: 'Password is required.' })
   activationToken: string;
 }
+@InputType()
+export class GetUserByNameDto {
+  @Field()
+  @IsNotEmpty({ message: 'Name is required' })
+  @IsString({ message: 'Name must need to be one string' })
+  name: string;
+}
